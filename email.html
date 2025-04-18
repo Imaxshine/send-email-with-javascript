@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Js Email</title>
+</head>
+<body>
+    <div>
+        <div id="output"></div>
+        <form id="emailForm">
+            <input id="message" type="text" placeholder="Message...">
+            <br>
+            <br>
+            <button onclick="SendEmail()" type="submit"> Tuma</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit',ev=>{
+            ev.preventDefault();
+        });
+        async function SendEmail() {
+            try{
+                let output = document.getElementById('output');
+
+            let message = document.getElementById('message').value;
+            let to = 'Email over here';
+            let subject = "Salamu kwako Ndugu: " + to;
+            let header = 'From: Jina la mtumaji <nonreplay@gmail.com>';
+            let apikey = 'Your Ekilie APIKEY Here';
+
+            let url = 'https://relay.ekilie.com/api/index.php';
+            let myMethod = "POST";
+            let myHeaders = {'Content-Type':'Application/json'};
+            let responses = await fetch(url,{
+                method:myMethod,
+                headers:myHeaders,
+                body:JSON.stringify({to,message,subject,header,apikey})
+            });
+            if(responses.ok){
+                let results = await responses.json();
+                console.log(results)
+            }else{
+                console.log('Errours');
+            }
+
+            }catch(err){
+                console.error('Eroots: ', err);
+                document.getElementById('output').innerHTML = "Errors occur";
+            }
+            // output.innerHTML = `${message}`;
+        }
+    </script>
+
+</body>
+</html>
